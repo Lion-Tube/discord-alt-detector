@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js")
+const { Client, GatewayIntentBits, EmbedBuilder, userMention } = require("discord.js")
 const { AltDetector } = require("discord-alt-detector")
 const format = require("./formatReport")
 const config = require("./config.json")
@@ -37,6 +37,7 @@ client.on("guildMemberAdd", async (member) => {
     const category = detector.getCategory(result)
     const c = result.categories
 
+    // 📂 Detailed Embed (dataChannel)
     const detailedEmbed = new EmbedBuilder()
         .setTitle("📂 Full User Analysis")
         .setColor(getColor(category))
@@ -52,28 +53,32 @@ client.on("guildMemberAdd", async (member) => {
             { name: "🪧 Banner", value: format.formatBanner(c.banner), inline: false },
             { name: "⚙️ Custom", value: format.formatCustom(c.custom), inline: false }
         )
-        .setFooter({ text: member.user.id })
+        .setFooter({ text: `${member.user.username} • ${member.id}` })
         .setTimestamp()
 
-    const summaryEmbed = new EmbedBuilder()
-        .setTitle("🔍 Alt Detection Result")
+    // 📌 Summary Embed (logChannel) — مثل ما طلبت
+    const embed = new EmbedBuilder()
+        .setTitle("🔍 Alt Detection")
         .setColor(getColor(category))
         .setThumbnail(member.user.displayAvatarURL())
+        .setDescription(`${userMention(member.id)} joined the server`)
         .addFields(
             { name: "⚠️ Risk Level", value: `\`${category}\``, inline: true },
-            { name: "📊 Score", value: `\`${result.total}\``, inline: true }
+            { name: "📊 Score", value: `\`${result.total}\``, inline: true },
+            { name: "📅 Account Created", value: `<t:${Math.floor(member.user.createdTimestamp/1000)}:F>` }
         )
+        .setFooter({ text: `${member.user.username} • ${member.id}` })
         .setTimestamp()
 
     const dataChannel = await member.guild.channels.fetch(config.dataChannel)
     const logChannel = await member.guild.channels.fetch(config.logChannel)
 
     if (dataChannel?.isTextBased()) {
-        dataChannel.send({ embeds: [detailedEmbed] })
+        await dataChannel.send({ embeds: [detailedEmbed] })
     }
 
     if (logChannel?.isTextBased()) {
-        logChannel.send({ embeds: [summaryEmbed] })
+        await logChannel.send({ embeds: [embed] })
     }
 
     console.log(member.user.tag, result.total, category)
