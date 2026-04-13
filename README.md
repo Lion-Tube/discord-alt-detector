@@ -73,14 +73,20 @@ Each signal contributes to a **final score**, which determines the user's **risk
 
 ```bash
 git clone https://github.com/Lion-Tube/discord-alt-detector
+```
+
+```bash
 cd discord-alt-detector
+```
+
+```bash
 npm install
 ```
 
 ---
 
 ## 🚀 Run the bot
-```
+```bash
 npm start
 ```
 
@@ -104,7 +110,7 @@ Edit config.json:
 
 discord.js v14
 
-discord-alt-detector (by DJj123dj)
+discord-alt-detector (by [DJj123dj](https://github.com/DJj123dj))
 
 
 
