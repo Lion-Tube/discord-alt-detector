@@ -58,17 +58,29 @@ client.on("guildMemberAdd", async (member) => {
 
     // 📌 Summary Embed (logChannel) — مثل ما طلبت
     const embed = new EmbedBuilder()
-        .setTitle("🔍 Alt Detection")
-        .setColor(getColor(category))
-        .setThumbnail(member.user.displayAvatarURL())
-        .setDescription(`${userMention(member.id)} joined the server`)
-        .addFields(
-            { name: "⚠️ Risk Level", value: `\`${category}\``, inline: true },
-            { name: "📊 Score", value: `\`${result.total}\``, inline: true },
-            { name: "📅 Account Created", value: `<t:${Math.floor(member.user.createdTimestamp/1000)}:F>` }
-        )
-        .setFooter({ text: `${member.user.username} • ${member.id}` })
-        .setTimestamp()
+    .setAuthor({
+        name: member.user.username,
+        iconURL: member.user.displayAvatarURL()
+    })
+    .setTitle("User Verification")
+    .setColor(getColor(category))
+    .setDescription(`${userMention(member.id)} just got verified!`)
+    .addFields(
+        {
+            name: "Account Age",
+            value: `<t:${Math.floor(member.user.createdTimestamp/1000)}:F>`,
+            inline: true
+        },
+        {
+            name: "Trust Level",
+            value: `\`${category}\``,
+            inline: true
+        }
+    )
+    .setFooter({
+        text: `${member.user.id}`
+    })
+    .setTimestamp()
 
     const dataChannel = await member.guild.channels.fetch(config.dataChannel)
     const logChannel = await member.guild.channels.fetch(config.logChannel)
