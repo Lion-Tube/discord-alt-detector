@@ -1,0 +1,22 @@
+{
+  "name": "discord-alt-detector-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that detects alt/suspicious accounts using discord-alt-detector",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "alt-detector",
+    "moderation",
+    "discord.js"
+  ],
+  "author": "your-name",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.0.0",
+    "discord-alt-detector": "^1.0.4"
+  }
+}
