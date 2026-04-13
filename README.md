@@ -82,7 +82,7 @@ Each signal contributes to a **final trust score**, which determines the user's 
 
 ---
 
-⚙️ Installation
+### ⚙️ Installation
 ```
 git clone https://github.com/Lion-Tube/discord-alt-detector
 ```
@@ -95,14 +95,14 @@ npm install
 
 ---
 
-🚀 Run the bot
+### 🚀 Run the bot
 ```
 npm start
 ```
 
 ---
 
-🧾 Configuration
+### 🧾 Configuration
 
 Edit config.json:
 ```json
