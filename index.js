@@ -13,7 +13,7 @@ const client = new Client({
 
 const detector = new AltDetector()
 
-// 🎨 Risk Colors
+// 🎨 Risk colors
 function getColor(category){
     switch(category){
         case "highly-trusted": return 0x2ecc71
@@ -28,12 +28,12 @@ function getColor(category){
 }
 
 client.on("ready", () => {
-    console.log(`✅ Bot Ready: ${client.user.tag}`)
+    console.log(`✅ Bot online as ${client.user.tag}`)
 })
 
 client.on("guildMemberAdd", async (member) => {
 
-    // تشغيل فقط على سيرفر محدد
+    // تشغيل فقط على السيرفر المحدد
     if (member.guild.id !== config.server) return
 
     const result = detector.check(member)
@@ -41,7 +41,7 @@ client.on("guildMemberAdd", async (member) => {
 
     const c = result.categories
 
-    // 🧠 MAIN EMBED (Human-readable report)
+    // 🧠 Embed (Human readable only)
     const embed = new EmbedBuilder()
         .setTitle("📂 User Risk Analysis")
         .setColor(getColor(category))
@@ -65,27 +65,9 @@ client.on("guildMemberAdd", async (member) => {
         .setTimestamp()
 
     const logChannel = await member.guild.channels.fetch(config.logChannel)
+
     if (logChannel?.isTextBased()) {
         await logChannel.send({ embeds: [embed] })
-    }
-
-    // 📂 RAW DATA (optional debug channel)
-    const dataChannel = await member.guild.channels.fetch(config.dataChannel)
-
-    if (dataChannel?.isTextBased()) {
-        dataChannel.send({
-            content:
-`📂 Raw Data (Debug Only)
-User: ${member.user.tag}
-ID: ${member.id}
-
-Score: ${result.total}
-Category: ${category}
-
-\`\`\`json
-${JSON.stringify(c, null, 2)}
-\`\`\``
-        })
     }
 
     console.log("ANALYZED:", member.user.tag, result.total, category)
