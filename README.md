@@ -78,33 +78,38 @@ Each signal contributes to a **final trust score**, which determines the user's 
   "usernameWords": -2,
   "pfp": 1
 }
-
+```
 
 ---
 
 ⚙️ Installation
-
+```
 git clone https://github.com/Lion-Tube/discord-alt-detector
+```
+```
 cd discord-alt-detector
+```
+```
 npm install
-
+```
 
 ---
 
 🚀 Run the bot
-
+```
 npm start
-
+```
 
 ---
 
 🧾 Configuration
 
 Edit config.json:
-
+```json
 {
   "token": "YOUR_BOT_TOKEN",
   "server": "YOUR_SERVER_ID",
   "logChannel": "LOG_CHANNEL_ID",
   "dataChannel": "DATA_CHANNEL_ID"
 }
+```
