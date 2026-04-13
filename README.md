@@ -1,8 +1,3 @@
-تمام، هذا README احترافي ونظيف بنفس الأسلوب اللي طلبته + مذكور استخدام مكتبة DJj123dj 👇
-
-
----
-
 <img src="https://apis.dj-dj.be/cdn/discord-alt-detector/logo.png" alt="Alt Detector" width="600px">
 
 ![node](https://img.shields.io/badge/node-%3E=18-green?style=flat-square)
