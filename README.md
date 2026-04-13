@@ -1,8 +1,10 @@
-📘 README.md
-
 # 🔍 Discord Alt Detector Bot
 
-A lightweight Discord bot that detects alt/suspicious accounts using behavior-based scoring.
+![Node](https://img.shields.io/badge/node-%3E=18-green)
+![Discord.js](https://img.shields.io/badge/discord.js-v14-blue)
+![Status](https://img.shields.io/badge/status-active-success)
+
+A lightweight Discord bot that detects alt and suspicious accounts using behavior-based scoring.
 
 Built using **discord.js v14** and **discord-alt-detector**.
 
@@ -10,51 +12,80 @@ Built using **discord.js v14** and **discord-alt-detector**.
 
 ## 📌 Features
 
-📊 80% detection success rate  
-📦 Lightweight and easy to run  
-⚙️ Advanced configuration using weights  
+📊 Behavior-based scoring system  
+📦 Lightweight and optimized performance  
+⚙️ Fully customizable weight configuration  
 📄 Supports custom scoring functions  
 🖥️ Built with discord.js v14  
-⭐ Detects more than just account age (username, activity, badges, etc.)
+⭐ Detects multiple account signals beyond age (username, activity, badges, etc.)
 
 ---
 
 ## 🧠 How it works
 
-The bot analyzes new members joining your server and assigns a **trust score** based on multiple factors:
+When a user joins the server, the bot evaluates multiple signals:
 
 - Account age  
 - Username patterns  
-- Display name structure  
-- Presence/activity status  
-- Discord badges (flags)  
+- Display name quality  
+- Activity & presence status  
+- Discord profile badges  
 - Profile picture & banner  
 - Server boosting status  
-- Custom logic (optional)
+- Optional custom logic  
 
-Each factor contributes to a total score that determines the user's **risk level**.
+Each signal contributes to a **final trust score**, which determines the user's risk level.
 
 ---
 
-## 📂 Output
+## 📊 Risk Levels
 
-The bot sends two types of logs:
+- 🟢 highly-trusted  
+- 🟢 trusted  
+- ⚪ normal  
+- 🟡 newbie  
+- 🟠 suspicious  
+- 🔴 highly-suspicious  
+- 🟣 mega-suspicious  
+
+---
+
+## 📂 Output System
 
 ### 📌 Summary Log (Embed)
-- User information
-- Risk level (color-coded)
-- Score
-- Account creation date
+- User information  
+- Risk level (color-coded)  
+- Final score  
+- Account creation date  
 
-### 📂 Detailed Data Log
-- Full category breakdown
-- Raw scoring results in JSON format
+### 📂 Detailed Log
+- Full category breakdown  
+- Raw JSON scoring data for analysis  
 
 ---
 
-## ⚙️ Installation
+## 🖼️ Example Output
 
-```bash
+### Embed Preview
+(Add your screenshot here)
+
+### JSON Example
+```json
+{
+  "age": -4,
+  "status": 1,
+  "activity": 3,
+  "usernameWords": -2,
+  "pfp": 1
+}
+
+
+---
+
+⚙️ Installation
+
+git clone https://github.com/Lion-Tube/discord-alt-detector
+cd discord-alt-detector
 npm install
 
 
