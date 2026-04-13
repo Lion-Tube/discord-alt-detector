@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, EmbedBuilder, userMention } = require("discord.js")
 const { AltDetector } = require("discord-alt-detector")
+const format = require("./formatReport")
 const config = require("./config.json")
 
 const client = new Client({
@@ -12,7 +13,7 @@ const client = new Client({
 
 const detector = new AltDetector()
 
-// 🎨 ألوان حسب الخطورة
+// 🎨 Risk Colors
 function getColor(category){
     switch(category){
         case "highly-trusted": return 0x2ecc71
@@ -27,26 +28,38 @@ function getColor(category){
 }
 
 client.on("ready", () => {
-    console.log(`✅ Logged in as ${client.user.tag}`)
+    console.log(`✅ Bot Ready: ${client.user.tag}`)
 })
 
 client.on("guildMemberAdd", async (member) => {
-    // يشتغل فقط على السيرفر المحدد
+
+    // تشغيل فقط على سيرفر محدد
     if (member.guild.id !== config.server) return
 
     const result = detector.check(member)
     const category = detector.getCategory(result)
 
-    // ===== 📌 Embed مختصر =====
+    const c = result.categories
+
+    // 🧠 MAIN EMBED (Human-readable report)
     const embed = new EmbedBuilder()
-        .setTitle("🔍 Alt Detection")
+        .setTitle("📂 User Risk Analysis")
         .setColor(getColor(category))
         .setThumbnail(member.user.displayAvatarURL())
-        .setDescription(`${userMention(member.id)} joined the server`)
+        .setDescription(`Analysis report for ${member.user.tag}`)
         .addFields(
             { name: "⚠️ Risk Level", value: `\`${category}\``, inline: true },
             { name: "📊 Score", value: `\`${result.total}\``, inline: true },
-            { name: "📅 Account Created", value: `<t:${Math.floor(member.user.createdTimestamp/1000)}:F>` }
+
+            { name: "🧓 Account Age", value: format.formatAge(c.age), inline: false },
+            { name: "📡 Status", value: format.formatStatus(c.status), inline: false },
+            { name: "🎮 Activity", value: format.formatActivity(c.activity), inline: false },
+            { name: "👤 Username", value: format.formatUsername(c.usernameWords), inline: false },
+            { name: "🏷️ Display Name", value: format.formatDisplayName(c.displaynameWords), inline: false },
+            { name: "🎖️ Flags", value: format.formatFlags(c.flags), inline: false },
+            { name: "🖼️ Avatar", value: format.formatPfp(c.pfp), inline: false },
+            { name: "🪧 Banner", value: format.formatBanner(c.banner), inline: false },
+            { name: "⚙️ Custom", value: format.formatCustom(c.custom), inline: false }
         )
         .setFooter({ text: `${member.user.username} • ${member.id}` })
         .setTimestamp()
@@ -56,15 +69,13 @@ client.on("guildMemberAdd", async (member) => {
         await logChannel.send({ embeds: [embed] })
     }
 
-    // ===== 📂 تفاصيل كاملة =====
+    // 📂 RAW DATA (optional debug channel)
     const dataChannel = await member.guild.channels.fetch(config.dataChannel)
 
     if (dataChannel?.isTextBased()) {
-        const details = JSON.stringify(result.categories, null, 2)
-
-        await dataChannel.send({
+        dataChannel.send({
             content:
-`📂 User Data
+`📂 Raw Data (Debug Only)
 User: ${member.user.tag}
 ID: ${member.id}
 
@@ -72,12 +83,12 @@ Score: ${result.total}
 Category: ${category}
 
 \`\`\`json
-${details}
+${JSON.stringify(c, null, 2)}
 \`\`\``
         })
     }
 
-    console.log("DETECT:", member.user.tag, result.total, category)
+    console.log("ANALYZED:", member.user.tag, result.total, category)
 })
 
 client.login(config.token)
