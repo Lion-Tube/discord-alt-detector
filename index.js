@@ -43,12 +43,12 @@ client.on("guildMemberAdd", async (member) => {
         .setColor(getColor(category))
         .setThumbnail(member.user.displayAvatarURL())
         .addFields(
-            { name: "🧓 Account Age", value: format.formatAge(c.age), inline: false },
+            { name: "🧓 Account Age", value: format.formatAge(c.age, member.user), inline: false },
             { name: "📡 Status", value: format.formatStatus(c.status), inline: false },
             { name: "🎮 Activity", value: format.formatActivity(c.activity), inline: false },
             { name: "👤 Username", value: format.formatUsername(c.usernameWords), inline: false },
             { name: "🏷️ Display Name", value: format.formatDisplayName(c.displaynameWords), inline: false },
-            { name: "🎖️ Flags", value: format.formatFlags(c.flags), inline: false },
+            { name: "🎖️ Flags", value: format.formatFlags(member.user), inline: false },
             { name: "🖼️ Avatar", value: format.formatPfp(c.pfp), inline: false },
             { name: "🪧 Banner", value: format.formatBanner(c.banner), inline: false },
             { name: "⚙️ Custom", value: format.formatCustom(c.custom), inline: false }
